@@ -58,6 +58,24 @@ def valid_ip(ip_code):
         return False
 
 
+def valid_password(ps):
+
+    formatter = ps.split('.')
+    valid_input = re.compile(r'^[A-F\d]{2}\.+')
+    invalid_input = re.compile(r'[A-F]{2}|1{2}|2{2}|3{2}|4{2}|5{2}|6{2}|7{2}|8{2}|9{2}')
+
+    if valid_input.findall(ps):
+        if len(formatter) == 4:
+            if invalid_input.findall(ps):
+                return False
+            else:
+                return True
+        else:
+            return False
+    else:
+        return True
+
+
 def valid_repository(rep):
 
     snakecase = re.compile(r'[a-z]_+', flags=re.I)
@@ -106,6 +124,9 @@ try:
     if valid_name(user_id):
         validator += 1
 
+    if valid_password(user_password):
+        validator += 1
+
     if valid_hash(hashcode):
         validator += 1
 
@@ -118,7 +139,7 @@ try:
     if valid_repository(repository):
         validator += 1
 
-    if validator == 5:
+    if validator == 6:
         print(True)
 
     else:
