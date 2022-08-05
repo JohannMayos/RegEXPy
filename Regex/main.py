@@ -43,7 +43,7 @@ def valid_hash(hs):
 def valid_ip(ip_code):
 
     formatter = ip_code.split('.')
-    iprange_format = re.compile(r'^[0-9]{1,3}\.+')
+    iprange_format = re.compile(r'^\d{1,3}\.+')
 
     if iprange_format.findall(ip_code):
         if len(formatter) == 4:
@@ -91,37 +91,38 @@ def operation_type(op):
         return False
 
 
-validator = 0
-txt = input().split()
+try:
+    validator = 0
+    txt = input().split()
 
+    user_id = txt[0]
+    user_password = txt[1]
+    ip = txt[2]
+    email = txt[3]
+    op_type = txt[4]
+    repository = txt[5]
+    hashcode = txt[6]
 
-user_id = txt[0]
-user_password = txt[1]
-ip = txt[2]
-email = txt[3]
-op_type = txt[4]
-repository = txt[5]
-hashcode = txt[6]
+    if valid_name(user_id):
+        validator += 1
 
+    if valid_hash(hashcode):
+        validator += 1
 
-if valid_name(user_id):
-    validator += 1
+    if valid_ip(ip):
+        validator += 1
 
-if valid_hash(hashcode):
-    validator += 1
+    if operation_type(op_type):
+        validator += 1
 
-if valid_ip(ip):
-    validator += 1
+    if valid_repository(repository):
+        validator += 1
 
-if operation_type(op_type):
-    validator += 1
+    if validator == 5:
+        print(True)
 
-if valid_repository(repository):
-    validator += 1
+    else:
+        print(False)
 
-
-if validator == 5:
-    print(True)
-
-else:
+except:
     print(False)
