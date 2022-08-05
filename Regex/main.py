@@ -40,25 +40,22 @@ def valid_hash(hs):
         return False
 
 
-def valid_ip(ip):
+def valid_ip(ip_code):
 
-    num = re.compile(r'\d')
-    dot = re.compile(r'\.')
+    formatter = ip_code.split('.')
+    iprange_format = re.compile(r'^[0-9]{1,3}\.+')
 
-
-
-
-def valid_password(ps):
-
-    alfa = re.compile(r'[A-F]')
-    num = re.compile(r'\d')
-    dot = re.compile(r'\.')
-
-    if dot.findall(ps):
-
-
-
-def valid_email(em):
+    if iprange_format.findall(ip_code):
+        if len(formatter) == 4:
+            for i in range(4):
+                if int(formatter[i]) > 255:
+                    return False
+                else:
+                    return True
+        else:
+            return False
+    else:
+        return False
 
 
 def valid_repository(rep):
@@ -75,19 +72,19 @@ def valid_repository(rep):
 
 
 def operation_type(op):
-    if re.search(r'pull', op):
+    if re.search(r'^pull$', op):
         return True
 
-    if re.search(r'push', op):
+    if re.search(r'^push$', op):
         return True
 
-    if re.search(r'stash', op):
+    if re.search(r'^stash$', op):
         return True
 
-    if re.search(r'fork', op):
+    if re.search(r'^fork$', op):
         return True
 
-    if re.search(r'pop', op):
+    if re.search(r'^pop$', op):
         return True
 
     else:
@@ -113,6 +110,9 @@ if valid_name(user_id):
 if valid_hash(hashcode):
     validator += 1
 
+if valid_ip(ip):
+    validator += 1
+
 if operation_type(op_type):
     validator += 1
 
@@ -120,7 +120,7 @@ if valid_repository(repository):
     validator += 1
 
 
-if validator == 4:
+if validator == 5:
     print(True)
 
 else:
